@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A simple school management dashboard for managing students, courses and attendance.">
+  <title>EduManage | School Management System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#"><span class="brand-mark">E</span><span>EduManage<small>School Portal</small></span></a>
+      <p class="nav-label">MENU</p>
+      <nav>
+        <button class="nav-link active" data-page="dashboard"><span>▦</span> Dashboard</button>
+        <button class="nav-link" data-page="students"><span>♙</span> Students</button>
+        <button class="nav-link" data-page="attendance"><span>✓</span> Attendance</button>
+        <button class="nav-link" data-page="courses"><span>▤</span> Courses</button>
+      </nav>
+      <div class="sidebar-bottom"><div class="school-card"><span class="school-icon">✦</span><strong>Learning starts here</strong><p>Keep your school organized in one place.</p></div><span class="version">School Management System · v1.0</span></div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+        <div><p class="eyebrow">SCHOOL ADMINISTRATION</p><h1 id="pageTitle">Dashboard</h1></div>
+        <div class="profile"><div class="avatar">A</div><div><strong>Administrator</strong><small>School Admin</small></div></div>
+      </header>
+      <section class="page active" id="dashboardPage">
+        <div class="welcome"><div><p class="eyebrow light">WELCOME BACK</p><h2>Make every school day count.</h2><p>Here is an overview of your school at a glance.</p></div><div class="welcome-art">✦</div></div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span>Total Students</span><span class="stat-icon purple">♙</span></div><strong id="studentCount">0</strong><small>Registered students</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Courses</span><span class="stat-icon blue">▤</span></div><strong id="courseCount">0</strong><small>Available courses</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Present Today</span><span class="stat-icon green">✓</span></div><strong id="presentCount">0</strong><small>Attendance marked present</small></article>
+          <article class="stat-card"><div class="stat-top"><span>Absent Today</span><span class="stat-icon orange">–</span></div><strong id="absentCount">0</strong><small>Attendance marked absent</small></article>
+        </div>
+        <div class="content-grid">
+          <article class="panel"><div class="panel-heading"><div><h3>Recently Added Students</h3><p>Your latest student registrations</p></div><button class="text-button" data-go="students">View all →</button></div><div id="recentStudents" class="recent-list"></div></article>
+          <article class="panel quick-panel"><div class="panel-heading"><div><h3>Quick Actions</h3><p>Common administration tasks</p></div></div><button class="quick-action" data-go="students"><span class="quick-icon purple">＋</span><span><strong>Add a student</strong><small>Register a new student</small></span><b>→</b></button><button class="quick-action" data-go="attendance"><span class="quick-icon green">✓</span><span><strong>Mark attendance</strong><small>Update today's attendance</small></span><b>→</b></button><button class="quick-action" data-go="courses"><span class="quick-icon blue">▤</span><span><strong>View courses</strong><small>Manage school courses</small></span><b>→</b></button></article>
+        </div>
+      </section>
+      <section class="page" id="studentsPage">
+        <div class="section-intro"><div><h2>Student Management</h2><p>Add, search and manage student records.</p></div><button class="primary-button" id="openStudentForm">＋ Add Student</button></div>
+        <div class="panel">
+          <div class="table-toolbar"><div><h3>All Students</h3><p id="studentSubtitle">Student directory</p></div><input id="studentSearch" class="search-input" type="search" placeholder="Search students..."></div>
+          <div class="table-wrap"><table><thead><tr><th>STUDENT</th><th>EMAIL</th><th>CLASS</th><th>PHONE</th><th>ACTION</th></tr></thead><tbody id="studentTable"></tbody></table></div>
+          <p class="empty-state" id="studentEmpty">No students found. Add your first student to get started.</p>
+        </div>
+      </section>
+      <section class="page" id="attendancePage">
+        <div class="section-intro"><div><h2>Attendance</h2><p>Record student attendance for today.</p></div><span class="date-chip" id="todayDate"></span></div>
+        <div class="panel"><div class="table-toolbar"><div><h3>Daily Attendance</h3><p>Choose Present or Absent for each student.</p></div><span class="attendance-hint">Changes are saved on this device</span></div><div class="table-wrap"><table><thead><tr><th>STUDENT</th><th>CLASS</th><th>STATUS</th></tr></thead><tbody id="attendanceTable"></tbody></table></div><p class="empty-state" id="attendanceEmpty">Add students before taking attendance.</p></div>
+      </section>
+      <section class="page" id="coursesPage">
+        <div class="section-intro"><div><h2>Courses</h2><p>Explore the subjects offered by your school.</p></div></div>
+        <div class="course-grid" id="courseGrid"></div>
+      </section>
+      <footer>© <span id="year"></span> EduManage. Built for a better school experience.</footer>
+    </main>
+  </div>
+  <div class="modal-backdrop" id="studentModal" aria-hidden="true"><form class="modal" id="studentForm"><div class="modal-heading"><div><h2>Add New Student</h2><p>Enter the student's information below.</p></div><button type="button" class="close-button" id="closeStudentForm" aria-label="Close">×</button></div><label>Full Name<input name="name" required maxlength="60" placeholder="e.g. Ayesha Khan"></label><label>Email Address<input name="email" type="email" required placeholder="student@example.com"></label><div class="form-row"><label>Class / Grade<input name="grade" required maxlength="30" placeholder="e.g. Grade 8"></label><label>Phone Number<input name="phone" maxlength="25" placeholder="03xx-xxxxxxx"></label></div><div class="modal-actions"><button type="button" class="secondary-button" id="cancelStudentForm">Cancel</button><button class="primary-button" type="submit">Save Student</button></div></form></div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
