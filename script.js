@@ -10,7 +10,29 @@ const courses = [
 let students = loadStudents();
 let attendance = JSON.parse(localStorage.getItem("edumanage_attendance_v1") || "{}");
 const $ = (id) => document.getElementById(id);
-function loadStudents(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []}catch{return []}}
+function loadStudents(){
+  try{
+    const saved=localStorage.getItem(STORAGE_KEY);
+    if(saved!==null){
+      const parsed=JSON.parse(saved);
+      return Array.isArray(parsed)?parsed:[];
+    }
+    const demoStudents=[
+      {id:"demo-001",name:"Ayesha Khan",email:"ayesha.khan@example.com",grade:"Grade 8",phone:"0300-0000001"},
+      {id:"demo-002",name:"Ali Ahmed",email:"ali.ahmed@example.com",grade:"Grade 7",phone:"0300-0000002"},
+      {id:"demo-003",name:"Fatima Noor",email:"fatima.noor@example.com",grade:"Grade 9",phone:"0300-0000003"},
+      {id:"demo-004",name:"Hassan Raza",email:"hassan.raza@example.com",grade:"Grade 6",phone:"0300-0000004"},
+      {id:"demo-005",name:"Zainab Malik",email:"zainab.malik@example.com",grade:"Grade 10",phone:"0300-0000005"},
+      {id:"demo-006",name:"Usman Tariq",email:"usman.tariq@example.com",grade:"Grade 8",phone:"0300-0000006"},
+      {id:"demo-007",name:"Maryam Iqbal",email:"maryam.iqbal@example.com",grade:"Grade 7",phone:"0300-0000007"},
+      {id:"demo-008",name:"Hamza Ali",email:"hamza.ali@example.com",grade:"Grade 9",phone:"0300-0000008"},
+      {id:"demo-009",name:"Hira Shah",email:"hira.shah@example.com",grade:"Grade 6",phone:"0300-0000009"},
+      {id:"demo-010",name:"Bilal Hussain",email:"bilal.hussain@example.com",grade:"Grade 10",phone:"0300-0000010"}
+    ];
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(demoStudents));
+    return demoStudents;
+  }catch{return []}
+}
 function saveStudents(){localStorage.setItem(STORAGE_KEY,JSON.stringify(students))}
 function initials(name){return name.trim().split(/\s+/).slice(0,2).map(part=>part[0]).join("").toUpperCase()}
 function escapeHTML(value){return String(value ?? "").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]))}
