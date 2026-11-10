@@ -49,10 +49,10 @@ function renderDashboard(){
 function renderStudents(){
   const query=$("studentSearch").value.trim().toLowerCase();
   const filtered=students.filter(s=>[s.name,s.email,s.grade,s.phone].join(" ").toLowerCase().includes(query));
-  $("studentSubtitle").textContent=students.length+" / 10 students registered";
+  $("studentSubtitle").textContent=students.length+" students registered";
   const addButton=$("openStudentForm");
-  addButton.disabled=students.length>=10;
-  addButton.textContent=students.length>=10?"✓ Student Limit Reached":"＋ Add Student";
+  addButton.disabled=false;
+  addButton.textContent="＋ Add Student";
   $("studentTable").innerHTML=filtered.map(s=>'<tr><td><div class="table-person"><span class="student-avatar">'+escapeHTML(initials(s.name))+'</span>'+escapeHTML(s.name)+'</div></td><td>'+escapeHTML(s.email)+'</td><td>'+escapeHTML(s.grade)+'</td><td>'+escapeHTML(s.phone || "—")+'</td><td><button class="delete-button" data-delete="'+s.id+'">Remove</button></td></tr>').join("");
   $("studentEmpty").style.display=filtered.length?"none":"block";
 }
@@ -77,14 +77,13 @@ function navigate(page){
 document.querySelectorAll(".nav-link").forEach(button=>button.addEventListener("click",()=>navigate(button.dataset.page)));
 document.querySelectorAll("[data-go]").forEach(button=>button.addEventListener("click",()=>navigate(button.dataset.go)));
 $("menuToggle").addEventListener("click",()=>$("sidebar").classList.toggle("open"));
-$("openStudentForm").addEventListener("click",()=>{if(students.length>=10){showToast("Maximum limit is 10 students. Remove a student to add another.");return}$("studentModal").classList.add("open")});
+$("openStudentForm").addEventListener("click",()=>$("studentModal").classList.add("open"));
 function closeModal(){$("studentModal").classList.remove("open");$("studentForm").reset()}
 $("closeStudentForm").addEventListener("click",closeModal);
 $("cancelStudentForm").addEventListener("click",closeModal);
 $("studentModal").addEventListener("click",event=>{if(event.target===$("studentModal"))closeModal()});
 $("studentForm").addEventListener("submit",event=>{
   event.preventDefault();
-  if(students.length>=10){showToast("Maximum limit is 10 students. Remove a student to add another.");closeModal();return}
   const data=new FormData(event.currentTarget);
   const student={id:Date.now().toString(),name:data.get("name").trim(),email:data.get("email").trim(),grade:data.get("grade").trim(),phone:data.get("phone").trim()};
   if(students.some(s=>s.email.toLowerCase()===student.email.toLowerCase())){showToast("A student with this email already exists.");return}
