@@ -59,6 +59,15 @@
     </main>
   </div>
   <div class="modal-backdrop" id="studentModal" aria-hidden="true"><form class="modal" id="studentForm"><div class="modal-heading"><div><h2>Add New Student</h2><p>Enter the student's information below.</p></div><button type="button" class="close-button" id="closeStudentForm" aria-label="Close">×</button></div><label>Full Name<input name="name" required maxlength="60" placeholder="e.g. Ayesha Khan"></label><label>Email Address<input name="email" type="email" required placeholder="student@example.com"></label><div class="form-row"><label>Class / Grade<input name="grade" required maxlength="30" placeholder="e.g. Grade 8"></label><label>Phone Number<input name="phone" maxlength="25" placeholder="03xx-xxxxxxx"></label></div><div class="modal-actions"><button type="button" class="secondary-button" id="cancelStudentForm">Cancel</button><button class="primary-button" type="submit">Save Student</button></div></form></div>
+  <section class="chat-widget" aria-label="EduManage help chatbot">
+    <div class="chat-panel" id="chatPanel" aria-label="Chat with school assistant">
+      <div class="chat-header"><div class="chat-brand"><span class="chat-brand-icon">E</span><span><strong>EduManage Assistant</strong><small>School help desk</small></span></div><button type="button" class="chat-close" id="chatClose" aria-label="Close chat">×</button></div>
+      <div class="chat-messages" id="chatMessages" aria-live="polite"><div class="chat-bubble bot-message">Assalam-o-Alaikum! 👋 I am your EduManage assistant. Ask me about students, attendance, courses or using this website.</div><div class="chat-suggestions"><button type="button" data-chat-question="How can I add a student?">Add a student</button><button type="button" data-chat-question="How do I mark attendance?">Mark attendance</button><button type="button" data-chat-question="How many students are registered?">Student count</button></div></div>
+      <form class="chat-form" id="chatForm"><input id="chatInput" type="text" maxlength="300" placeholder="Type your question..." autocomplete="off" aria-label="Type your message" required><button type="submit" aria-label="Send message">➤</button></form>
+      <p class="chat-note">Automated help · Do not share private information</p>
+    </div>
+    <button type="button" class="chat-launcher" id="chatLauncher" aria-label="Open EduManage assistant"><span class="chat-launcher-icon">✦</span><span>Chat with us</span></button>
+  </section>
   <div class="toast" id="toast" role="status"></div>
   <script src="script.js"></script>
 </body>
