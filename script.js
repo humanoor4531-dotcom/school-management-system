@@ -104,3 +104,73 @@ $("attendanceTable").addEventListener("change",event=>{
 $("todayDate").textContent=new Intl.DateTimeFormat("en", {weekday:"short",year:"numeric",month:"short",day:"numeric"}).format(new Date());
 $("year").textContent=new Date().getFullYear();
 renderDashboard();renderStudents();renderAttendance();renderCourses();
+
+/* EduManage chatbot: built-in FAQ assistant (no external AI service/API). */
+const chatPanel=$("chatPanel");
+const chatMessages=$("chatMessages");
+function addChatMessage(message,type){
+  const bubble=document.createElement("div");
+  bubble.className="chat-bubble "+(type==="user"?"user-message":"bot-message");
+  bubble.textContent=message;
+  chatMessages.appendChild(bubble);
+  chatMessages.scrollTop=chatMessages.scrollHeight;
+}
+function answerChat(question){
+  const q=question.toLowerCase();
+  if(/hello|hi|salam|assalam|aoa/.test(q)){
+    return "Wa-Alaikum-Assalam! 😊 I can guide you about adding students, attendance, courses and the dashboard.";
+  }
+  if(/add|register|new student|student form/.test(q)){
+    navigate("students");
+    return "To add a student, open the Students section and click “＋ Add Student”. Enter the student's name, email, class and phone, then press Save Student.";
+  }
+  if(/remove|delete/.test(q)){
+    navigate("students");
+    return "Open Students, find the student's row and click Remove. The website will ask you to confirm before deleting the record.";
+  }
+  if(/search|find student/.test(q)){
+    navigate("students");
+    return "Open Students and use the search box above the table. You can search by name, email, class or phone number.";
+  }
+  if(/attendance|present|absent/.test(q)){
+    navigate("attendance");
+    return "Open Attendance. Use the dropdown beside each student's name to choose Present or Absent. Changes are saved in this browser.";
+  }
+  if(/course|subject/.test(q)){
+    navigate("courses");
+    return "Open Courses from the left menu to view the subjects currently listed in EduManage.";
+  }
+  if(/dashboard|total|count|how many student|number of student/.test(q)){
+    navigate("dashboard");
+    return "There are currently "+students.length+" student record(s) in this browser. The dashboard also shows course and today's attendance counts.";
+  }
+  if(/data|save|stored|database|another device|phone|laptop/.test(q)){
+    return "At the moment, student and attendance records are saved in this browser's local storage. They are not automatically shared with another phone or computer. A secure online database and backend would be needed for shared access.";
+  }
+  if(/help|what can you do|features/.test(q)){
+    return "I can guide you through adding, searching and removing students, marking attendance, viewing courses and checking dashboard counts. Try one of the suggested questions.";
+  }
+  return "Sorry, I don't have an answer for that yet. You can ask me about adding students, searching records, attendance, courses or the dashboard.";
+}
+function sendChatMessage(message){
+  const clean=message.trim();
+  if(!clean)return;
+  addChatMessage(clean,"user");
+  const reply=answerChat(clean);
+  window.setTimeout(()=>addChatMessage(reply,"bot"),180);
+}
+$("chatLauncher").addEventListener("click",()=>{
+  chatPanel.classList.toggle("open");
+  if(chatPanel.classList.contains("open"))$("chatInput").focus();
+});
+$("chatClose").addEventListener("click",()=>chatPanel.classList.remove("open"));
+$("chatForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const input=$("chatInput");
+  sendChatMessage(input.value);
+  input.value="";
+});
+chatMessages.addEventListener("click",event=>{
+  const button=event.target.closest("[data-chat-question]");
+  if(button)sendChatMessage(button.dataset.chatQuestion);
+});
